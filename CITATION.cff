@@ -8,9 +8,10 @@ authors:
     affiliation: Zhengzhou University
 repository-code: "https://github.com/Kiki-ui-coder/rssm-rollout-drift"
 url: "https://github.com/Kiki-ui-coder/rssm-rollout-drift"
+doi: "10.5281/zenodo.23099964"
 license: MIT
 version: 1.0.0
-date-released: "2026-10-01"
+date-released: "2026-10-02"
 keywords:
   - world models
   - recurrent state-space model

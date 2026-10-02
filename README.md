@@ -2,7 +2,13 @@
 
 **Quantifying open-loop rollout error accumulation in a recurrent state-space world model.**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23099964.svg)](https://doi.org/10.5281/zenodo.23099964)
+
 <https://github.com/Kiki-ui-coder/rssm-rollout-drift> · [technical report](report/report.md)
+
+Archived on Zenodo: **[10.5281/zenodo.23099964](https://doi.org/10.5281/zenodo.23099964)** (v1.0.0).
+The concept DOI [10.5281/zenodo.23099963](https://doi.org/10.5281/zenodo.23099963) always
+resolves to the newest version.
 
 A from-scratch PyTorch implementation of an RSSM (the architecture family behind
 PlaNet and the Dreamer line), plus a controlled measurement study of how fast an

@@ -306,6 +306,12 @@ did in fact differ between runs. With the seed in place, two consecutive runs of
 publishing. Machine used: Apple M5 Pro, CPU-only (15 cores), `torch` CPU build.
 End-to-end `bash scripts/run_all.sh` takes about 11 minutes.
 
+The exact code that produced these results is archived on Zenodo:
+
+> Jiang, Q. (2026). *rssm-rollout-drift: Quantifying Open-Loop Rollout Error
+> Accumulation in a Recurrent State-Space World Model* (v1.0.0) [Computer software].
+> https://doi.org/10.5281/zenodo.23099964
+
 ## References
 
 1. Hafner, D., Lillicrap, T., Fischer, I., et al. *Learning Latent Dynamics for
