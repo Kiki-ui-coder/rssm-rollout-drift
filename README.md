@@ -87,6 +87,8 @@ Headline numbers, 32 held-out episodes × 3 seeds, `warmup = 5`, `horizon = 15`
 | `rssm_mean` | 0.0045 | 0.0053 | 0.0070 | 0.0134 | 1.086× |
 | `mlp_recursive` | 0.0003 | 0.0069 | 0.0247 | 0.0592 | 1.317× |
 
+![Open-loop rollout error accumulation](results/rollout_drift.png)
+
 Three takeaways:
 
 1. **Open-loop error is multiplicative.** An exponential `err(h) ≈ exp(b·h)` fits the
