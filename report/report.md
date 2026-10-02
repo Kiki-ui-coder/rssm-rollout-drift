@@ -255,7 +255,7 @@ pixel-based, high-dimensional, or partially observed tasks, where the latent sta
 information the observation does not. It does not show that deterministic latent rollouts
 are universally better — sampling has a purpose (it produces a distribution over futures
 that a stochastic policy can exploit), and this study measures prediction error only, not
-agent performance. Trading 5.8× prediction accuracy for a stochastic belief may well be the
+agent performance. Trading 3.3× prediction accuracy for a stochastic belief may well be the
 right trade in an RL loop; that question is not addressed here.
 
 **Why the drift is multiplicative.** The GRU is a deterministic map from `(h, z, a)` to `h`.
