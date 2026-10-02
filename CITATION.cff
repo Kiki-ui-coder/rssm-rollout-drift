@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use or build on this software, please cite it as below."
+title: "rssm-rollout-drift: Quantifying Open-Loop Rollout Error Accumulation in a Recurrent State-Space World Model"
+type: software
+authors:
+  - family-names: Jiang
+    given-names: Qi
+    affiliation: Zhengzhou University
+repository-code: "https://github.com/REPLACE_WITH_YOUR_USERNAME/rssm-rollout-drift"
+url: "https://github.com/REPLACE_WITH_YOUR_USERNAME/rssm-rollout-drift"
+license: MIT
+version: 1.0.0
+date-released: "2026-10-01"
+keywords:
+  - world models
+  - recurrent state-space model
+  - model-based reinforcement learning
+  - rollout error accumulation
+abstract: >-
+  A from-scratch PyTorch implementation of a recurrent state-space world model
+  (RSSM) and a controlled empirical study of open-loop rollout error
+  accumulation on Pendulum-v1. This is a reimplementation and measurement
+  study; it does not propose a new architecture or a new algorithm.

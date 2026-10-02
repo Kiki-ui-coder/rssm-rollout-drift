@@ -1,0 +1,5 @@
+# Tested with Python 3.12 on macOS (Apple silicon, CPU).
+torch>=2.4
+numpy>=1.26
+gymnasium>=0.29
+matplotlib>=3.8

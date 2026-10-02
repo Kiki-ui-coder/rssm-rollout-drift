@@ -1,0 +1,24 @@
+{
+  "title": "rssm-rollout-drift: Quantifying Open-Loop Rollout Error Accumulation in a Recurrent State-Space World Model",
+  "description": "<p>A from-scratch PyTorch implementation of a recurrent state-space world model (RSSM, the architecture family behind PlaNet and the Dreamer line) together with a controlled empirical study of how quickly an imagined rollout drifts away from reality on Pendulum-v1.</p><p>The repository contains the model, the training code, the data-collection code, the evaluation protocol and the scripts that regenerate every figure in the accompanying technical report.</p><p><strong>Scope note:</strong> this is a reimplementation and measurement study. It does not propose a new architecture or a new learning algorithm, and it makes no claim of state-of-the-art performance.</p>",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "creators": [
+    {
+      "name": "Jiang, Qi",
+      "affiliation": "Zhengzhou University"
+    }
+  ],
+  "keywords": [
+    "world models",
+    "recurrent state-space model",
+    "RSSM",
+    "Dreamer",
+    "model-based reinforcement learning",
+    "rollout error accumulation",
+    "latent dynamics"
+  ],
+  "related_identifiers": [],
+  "notes": "Code developed for a reimplementation and benchmarking study; see the repository README for the exact scope and limitations."
+}

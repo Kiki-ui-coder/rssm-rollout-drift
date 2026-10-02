@@ -1,0 +1,17 @@
+{
+  "episodes": 32,
+  "warmup": 5,
+  "horizon": 15,
+  "eval_seed": 777,
+  "checkpoints": [
+    "runs/wm_seed0/checkpoint.pt",
+    "runs/wm_seed1/checkpoint.pt",
+    "runs/wm_seed2/checkpoint.pt"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "rows": 5760
+}

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+*.egg-info/
+
+# local run artifacts
+runs/
+data_cache/
+*.log
