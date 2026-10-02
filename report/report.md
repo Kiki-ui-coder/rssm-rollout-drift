@@ -148,32 +148,33 @@ Mean normalized observation MSE, averaged over 32 episodes × 3 seeds:
 
 | horizon | 1 | 3 | 5 | 8 | 11 | 13 | 15 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `rssm_teacher_forced` | 0.0050 | 0.0052 | 0.0044 | 0.0055 | 0.0040 | 0.0040 | 0.0048 |
-| `rssm_stochastic` | 0.0081 | 0.0118 | 0.0173 | 0.0284 | 0.0359 | 0.0530 | **0.0947** |
-| `rssm_mean` | 0.0041 | 0.0044 | 0.0060 | 0.0071 | 0.0095 | 0.0120 | **0.0164** |
+| `rssm_teacher_forced` | 0.0062 | 0.0045 | 0.0055 | 0.0053 | 0.0046 | 0.0047 | 0.0049 |
+| `rssm_stochastic` | 0.0076 | 0.0100 | 0.0149 | 0.0216 | 0.0269 | 0.0385 | **0.0442** |
+| `rssm_mean` | 0.0045 | 0.0044 | 0.0053 | 0.0060 | 0.0080 | 0.0096 | **0.0134** |
 | `mlp_recursive` | 0.0003 | 0.0024 | 0.0069 | 0.0168 | 0.0301 | 0.0436 | **0.0592** |
 
 Fitting `err(h) ≈ exp(b·h)` on `h = 2…15` gives a horizon-independent summary:
 
 | model | per-step growth | fit R² | error at h=1 | error at h=15 | ratio 15/1 |
 | --- | --- | --- | --- | --- | --- |
-| `rssm_teacher_forced` | 0.986× | — | 0.0050 | 0.0048 | 0.96× |
-| `rssm_stochastic` | **1.172×** | 0.965 | 0.0081 | 0.0947 | 11.7× |
-| `rssm_mean` | **1.104×** | 0.976 | 0.0041 | 0.0164 | 4.0× |
+| `rssm_teacher_forced` | 0.995× | 0.02 | 0.0062 | 0.0049 | 0.79× |
+| `rssm_stochastic` | **1.126×** | 0.963 | 0.0076 | 0.0442 | 5.8× |
+| `rssm_mean` | **1.086×** | 0.962 | 0.0045 | 0.0134 | 2.9× |
 | `mlp_recursive` | **1.317×** | 0.931 | 0.0003 | 0.0592 | 190.8× |
 
 Two things stand out.
 
-**The teacher-forced curve is flat.** Its growth factor is 0.986×/step — indistinguishable
-from 1 — and it sits at ≈0.0045 for the entire horizon. This is the control that makes the
-rest of the table meaningful: when the posterior is refreshed with a real observation every
-step, there is no compounding at all. It also establishes the RSSM's reconstruction floor
-of roughly 0.0045 normalized MSE (≈0.067 normalized RMSE); the latent bottleneck costs that
-much before any prediction error is counted.
+**The teacher-forced curve is flat.** Its growth factor is 0.995×/step — indistinguishable
+from 1 — and R² for the exponential fit is 0.02, i.e. there is no trend to fit. It sits at
+≈0.005 for the entire horizon. This is the control that makes the rest of the table
+meaningful: when the posterior is refreshed with a real observation every step, there is no
+compounding at all. It also establishes the RSSM's reconstruction floor of roughly 0.005
+normalized MSE (≈0.07 normalized RMSE); the latent bottleneck costs that much before any
+prediction error is counted.
 
 **The three open-loop curves are all multiplicative, but at very different rates.** Over 15
-steps the stochastic RSSM grows by an order of magnitude, the deterministic-latent RSSM by
-4×, and the recursive MLP by 190×. These are not the same regime.
+steps the recursive MLP grows by a factor of 191, the stochastic RSSM by 5.8, and the
+deterministic-latent RSSM by 2.9. These are not the same regime.
 
 ### 4.2 Sampling from the prior is the dominant driver of drift
 
@@ -182,22 +183,30 @@ starting state. The only difference is `z_t ~ p(z_t | h_t)` versus `z_t = E[p(z_
 
 | horizon | 1 | 3 | 5 | 8 | 11 | 13 | 15 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `mae_thdot` stochastic (rad/s) | 0.168 | 0.226 | 0.306 | 0.351 | 0.391 | 0.417 | 0.457 |
-| `mae_thdot` mean (rad/s) | 0.128 | 0.152 | 0.181 | 0.187 | 0.195 | 0.195 | 0.199 |
-| `latent_kl` stochastic (nats) | 0.50 | 1.25 | 1.85 | 2.95 | 3.08 | 4.44 | 5.76 |
-| `latent_kl` mean (nats) | 0.50 | 0.88 | 1.29 | 2.49 | 3.12 | 3.09 | 2.77 |
-| `h_rel_drift` stochastic | 0.000 | 0.153 | 0.217 | 0.220 | 0.240 | 0.283 | 0.276 |
-| `h_rel_drift` mean | 0.000 | 0.110 | 0.147 | 0.152 | 0.163 | 0.189 | 0.175 |
+| `mae_thdot` stochastic (rad/s) | 0.179 | 0.221 | 0.282 | 0.307 | 0.328 | 0.372 | 0.349 |
+| `mae_thdot` mean (rad/s) | 0.135 | 0.170 | 0.189 | 0.194 | 0.182 | 0.182 | 0.180 |
+| `latent_kl` stochastic (nats) | 0.52 | 1.12 | 1.71 | 3.12 | 3.66 | 3.97 | 3.60 |
+| `latent_kl` mean (nats) | 0.52 | 0.91 | 1.17 | 1.31 | 1.75 | 2.28 | 3.08 |
+| `h_rel_drift` stochastic | 0.000 | 0.156 | 0.216 | 0.221 | 0.237 | 0.267 | 0.264 |
+| `h_rel_drift` mean | 0.000 | 0.115 | 0.149 | 0.145 | 0.151 | 0.177 | 0.175 |
 
-Switching from sampling to the prior mean cuts the per-step growth factor from 1.172× to
-1.104×, and the terminal error at `h = 15` from 0.0947 to 0.0164 — a **5.8× reduction**, from
-a one-line change that adds no parameters and no training.
+Switching from sampling to the prior mean cuts the per-step growth factor from 1.126× to
+1.086×, and the terminal error at `h = 15` from 0.0442 to 0.0134 — a **3.3× reduction**, from
+a one-line change that adds no parameters and no training. The ratio is 2.8× as early as
+`h = 5`, so the penalty is already being paid at short horizons.
 
 The mechanism is visible directly in the latent. At `h = 1` both variants have exactly zero
 deterministic drift, because the first imagination step consumes the same `h` and `z` that
 the teacher-forced pass produced — the two rollouts are identical by construction. They
-separate from `h = 2` onwards, and the sampled variant maintains roughly twice the belief
-divergence of the mean variant for the rest of the horizon.
+separate from `h = 2` onwards, and the deterministic-path drift stays systematically higher
+for the sampled variant for the whole horizon (0.264 vs 0.175 at `h = 15`).
+
+The `latent_kl` column deserves a caveat rather than a claim. The sampled variant does show
+roughly 2× the belief divergence of the mean variant through `h = 11` (3.66 vs 1.75), but
+the two curves then converge (3.60 vs 3.08 at `h = 15`) and neither is monotone. Averaged
+over 32 episodes the KL estimate is noisy, and it appears to saturate. The observation-space
+error is the more reliable signal here; the KL is best read as corroboration that the
+sampled belief does wander further, not as a precise measure of how much.
 
 Sampling injects noise into `z` at every step; that noise enters the GRU as input, so it is
 not merely an output perturbation but a perturbation of the recurrent state itself. The
@@ -207,29 +216,38 @@ observations frequently.
 
 ### 4.3 A recursive MLP wins early and loses late
 
-`mlp_recursive` is the best model at `h = 1` by a factor of 13 over any RSSM variant
-(0.0003 vs 0.0041). It has no latent bottleneck, so its one-step error is not inflated by
-reconstruction. It also has by far the worst per-step growth (1.317×), and by `h = 8` it has
-already fallen behind `rssm_mean`. Against `rssm_stochastic` it stays ahead for the entire
-tested horizon (0.0592 vs 0.0947 at `h = 15`), but its error is growing 1.317×/step while
-the stochastic RSSM grows 1.172×/step, so the crossing point is real and simply lies beyond
-`h = 15`.
+`mlp_recursive` is the best model at `h = 1` by a factor of 15 over the best RSSM variant
+(0.0003 vs 0.0045). It has no latent bottleneck, so its one-step error is not inflated by
+reconstruction. But it also has by far the worst per-step growth (1.317× vs 1.126× and
+1.086×), and the ordering flips inside the tested horizon:
+
+| crossing | horizon | MLP | RSSM |
+| --- | --- | --- | --- |
+| MLP falls behind `rssm_mean` | between 4 and 5 | 0.0069 | 0.0053 |
+| MLP falls behind `rssm_stochastic` | between 10 and 11 | 0.0301 | 0.0269 |
+| at the end of the horizon | 15 | 0.0592 | 0.0134 (mean) / 0.0442 (stochastic) |
+
+So the MLP is the worst of the three open-loop models by `h = 15` (0.0592 vs 0.0442 and
+0.0134), having started an order of magnitude better. The learned latent state does not pay
+off immediately — it pays off after roughly 5–10 steps, and the crossover location is set
+by the ratio of the two growth rates.
 
 The honest reading is that this comparison does **not** establish that the learned latent
-state is superior for prediction in this regime. What it establishes is that the two models
-fail differently: the MLP has an excellent one-step map and a poor error-propagation
-profile; the RSSM pays a fixed reconstruction tax and propagates error more gently. On a
-3-dimensional, near-Markov observation like Pendulum's, there is little hidden state for the
-recurrent model to exploit — which is exactly the setting where the MLP's advantage should
-be largest. Whether the ordering flips on a partially observed task is the obvious next
-question and is not answered here.
+state is superior for prediction in general. What it establishes is that the two models fail
+differently: the MLP has an excellent one-step map and a poor error-propagation profile; the
+RSSM pays a fixed reconstruction tax and propagates error more gently. On a 3-dimensional,
+near-Markov observation like Pendulum's there is little hidden state for the recurrent model
+to exploit, which is exactly the setting where the MLP's advantage should be largest. Whether
+the crossover moves much earlier on a partially observed task is the obvious next question
+and is not answered here.
 
 ## 5. Discussion
 
-**What this study supports.** On this benchmark the single largest lever on rollout drift is
-not model capacity, objective, or training time — it is whether the latent is sampled during
-imagination. Holding everything else fixed, sampling costs 5.8× at a 15-step horizon. This
-is a concrete, actionable finding for anyone choosing how to run imagined rollouts in a
+**What this study supports.** Among the factors varied here, the largest lever on rollout
+drift is not the architecture or the training budget but whether the latent is sampled
+during imagination. Holding the checkpoint, the start state and the actions fixed, sampling
+costs a factor of 3.3 at a 15-step horizon, and the gap is already 2.8× by step 5. This is a
+concrete, actionable finding for anyone choosing how to run imagined rollouts in a
 model-based agent, and it costs nothing to act on.
 
 **What it does not support.** It does not show that these drift rates transfer to
@@ -244,9 +262,9 @@ right trade in an RL loop; that question is not addressed here.
 Open-loop imagination applies that map repeatedly with no correction. Any deviation in `z`
 is fed back as input, so error is compounded at a rate set by the spectral properties of the
 recurrence — a per-step multiplier, which is why an exponential fits the measured curves
-well (R² = 0.93–0.98 across the fitted range for all three open-loop models). Multiplicative
-compounding is also why a 6% difference in per-step growth (1.104× vs 1.172×) becomes a 5.8×
-difference in terminal error over only 15 steps.
+well (R² = 0.93–0.96 across the fitted range for all three open-loop models). Multiplicative
+compounding is also why a 3.7% difference in per-step growth (1.086× vs 1.126×) becomes a
+3.3× difference in terminal error over only 15 steps.
 
 **A practical recommendation.** If model-based planning uses horizons beyond a handful of
 steps, anchor the rollout more often than the default recipe suggests: either shorten the
@@ -278,8 +296,15 @@ bash scripts/run_all.sh
 ```
 
 Every number in this report comes from `results/rollout_raw.csv`, written by
-`src/evaluate.py`. Nothing is hand-entered. Machine used for the results below:
-Apple M5 Pro, CPU-only (15 cores), `torch` CPU build.
+`src/evaluate.py`. Nothing is hand-entered.
+
+The evaluation script seeds all RNGs. This matters here because the
+`rssm_stochastic` variant samples from the prior: without a fixed seed, repeat
+runs agree only to within Monte Carlo noise, and a first draft of these results
+did in fact differ between runs. With the seed in place, two consecutive runs of
+`src/evaluate.py` produce byte-identical raw CSVs; this was verified before
+publishing. Machine used: Apple M5 Pro, CPU-only (15 cores), `torch` CPU build.
+End-to-end `bash scripts/run_all.sh` takes about 11 minutes.
 
 ## References
 

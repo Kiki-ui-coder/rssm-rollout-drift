@@ -82,23 +82,30 @@ Headline numbers, 32 held-out episodes × 3 seeds, `warmup = 5`, `horizon = 15`
 
 | model | h=1 | h=5 | h=10 | h=15 | per-step growth |
 | --- | --- | --- | --- | --- | --- |
-| `rssm_teacher_forced` | 0.0050 | 0.0044 | 0.0038 | 0.0048 | 0.986× (flat) |
-| `rssm_stochastic` | 0.0081 | 0.0173 | 0.0316 | 0.0947 | 1.172× |
-| `rssm_mean` | 0.0041 | 0.0060 | 0.0082 | 0.0164 | 1.104× |
+| `rssm_teacher_forced` | 0.0062 | 0.0055 | 0.0040 | 0.0049 | 0.995× (flat) |
+| `rssm_stochastic` | 0.0076 | 0.0149 | 0.0273 | 0.0442 | 1.126× |
+| `rssm_mean` | 0.0045 | 0.0053 | 0.0070 | 0.0134 | 1.086× |
 | `mlp_recursive` | 0.0003 | 0.0069 | 0.0247 | 0.0592 | 1.317× |
 
 Three takeaways:
 
 1. **Open-loop error is multiplicative.** An exponential `err(h) ≈ exp(b·h)` fits the
-   measured curves with R² = 0.93–0.98; the per-step growth factor is the clean
+   measured curves with R² = 0.93–0.96; the per-step growth factor is the clean
    horizon-independent summary.
 2. **Sampling the latent is the dominant driver of drift.** Same checkpoint, same
    starting state, the only difference being `z ~ p(z|h)` versus `z = E[p(z|h)]`:
-   per-step growth drops from 1.172× to 1.104×, and the error at `h = 15` drops
-   from 0.0947 to 0.0164 — a **5.8× reduction** for a one-line change.
-3. **The teacher-forced curve is flat** (0.986×/step, ≈0.0045 across all horizons).
-   That is the control: with an observation every step there is no compounding at
-   all, and it fixes the model's reconstruction floor at ≈0.0045 normalized MSE.
+   per-step growth drops from 1.126× to 1.086×, and the error at `h = 15` drops
+   from 0.0442 to 0.0134 — a **3.3× reduction** for a one-line change.
+3. **The teacher-forced curve is flat** (0.995×/step, R² ≈ 0.02). That is the
+   control: with an observation every step there is no compounding at all, and it
+   fixes the model's reconstruction floor at ≈0.005 normalized MSE.
+
+The recursive MLP baseline starts 15× better than any RSSM variant and ends up the
+worst of the three — it falls behind `rssm_mean` around step 5 and behind
+`rssm_stochastic` around step 10.
+
+Results are seeded and reproducible: two consecutive runs of `src/evaluate.py`
+produce byte-identical CSVs.
 
 ## Reproducing
 

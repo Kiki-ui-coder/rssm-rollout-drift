@@ -246,6 +246,10 @@ def _rows(model_name, seed, horizon, obs_mse_norm, abs_err, rew_mse, latent_kl, 
 
 def main() -> None:
     args = parse_args()
+    # The `rssm_stochastic` variant samples from the prior, so without a fixed
+    # seed every run of this script yields slightly different numbers. Seeding
+    # here makes the reported results exactly reproducible.
+    set_seed(args.eval_seed)
     device = get_device(args.device)
     os.makedirs(args.out, exist_ok=True)
 
