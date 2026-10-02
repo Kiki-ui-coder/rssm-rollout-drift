@@ -63,7 +63,7 @@ def aggregate(rows, metric: str) -> dict[str, tuple[np.ndarray, np.ndarray, np.n
     return series
 
 
-def curve_panel(ax, series, title, ylabel, logy=False):
+def curve_panel(ax, series, title, ylabel, logy=False, zero_floor=False):
     for model in PLOT_ORDER:
         if model not in series:
             continue
@@ -77,6 +77,8 @@ def curve_panel(ax, series, title, ylabel, logy=False):
     ax.grid(alpha=0.3)
     if logy:
         ax.set_yscale("log")
+    if zero_floor:
+        ax.set_ylim(bottom=0.0)
 
 
 def write_summary(path: str, rows, metrics) -> None:
@@ -107,9 +109,9 @@ def main() -> None:
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 7.5))
     curve_panel(axes[0, 0], aggregate(rows, "obs_mse_norm"),
-                "Observation prediction error", "normalized MSE")
+                "Observation prediction error", "normalized MSE", zero_floor=True)
     curve_panel(axes[0, 1], aggregate(rows, "mae_thdot"),
-                "Angular-velocity error", r"MAE ($\dot\theta$, rad/s)")
+                "Angular-velocity error", r"MAE ($\dot\theta$, rad/s)", zero_floor=True)
     curve_panel(axes[1, 0], aggregate(rows, "latent_kl"),
                 "Belief drift: KL(posterior$_{tf}$ || prior$_{open}$)", "KL (nats)", logy=True)
     curve_panel(axes[1, 1], aggregate(rows, "h_rel_drift"),

@@ -131,6 +131,17 @@ study is about, is the **slope**: how fast each model's error grows with horizon
 
 ## 4. Results
 
+![Open-loop rollout error accumulation](../results/rollout_drift.png)
+
+*Top left: observation error vs horizon. Top right: angular-velocity error. Bottom
+left: belief drift, `KL(posterior_tf ‖ prior_open)`, on a log axis. Bottom right:
+deterministic-path drift. Bands are ±1 standard deviation across episodes and seeds.*
+
+![Example episode](../results/example_trajectory.png)
+
+*One held-out episode. The dotted vertical line is the last step at which the model
+saw a real observation; everything to its right is generated open-loop.*
+
 ### 4.1 Observation error grows multiplicatively, and the floor is flat
 
 Mean normalized observation MSE, averaged over 32 episodes × 3 seeds:
