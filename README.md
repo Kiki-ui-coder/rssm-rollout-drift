@@ -2,6 +2,8 @@
 
 **Quantifying open-loop rollout error accumulation in a recurrent state-space world model.**
 
+<https://github.com/Kiki-ui-coder/rssm-rollout-drift> · [technical report](report/report.md)
+
 A from-scratch PyTorch implementation of an RSSM (the architecture family behind
 PlaNet and the Dreamer line), plus a controlled measurement study of how fast an
 imagined rollout drifts away from the real environment on `Pendulum-v1`.
@@ -101,6 +103,8 @@ Three takeaways:
 ## Reproducing
 
 ```bash
+git clone https://github.com/Kiki-ui-coder/rssm-rollout-drift.git
+cd rssm-rollout-drift
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 bash scripts/run_all.sh          # ~15 min on a laptop CPU, no GPU needed
@@ -151,6 +155,10 @@ The architecture follows Hafner et al., *Dream to Control* (DreamerV1) and
 *Mastering Diverse Domains through World Models* (DreamerV3). This repository is
 an independent from-scratch implementation written for study purposes; no
 upstream code was copied. The environment is `gymnasium`'s `Pendulum-v1`.
+
+## Author
+
+Qi Jiang (姜琦) — Zhengzhou University — [@Kiki-ui-coder](https://github.com/Kiki-ui-coder)
 
 ## License
 

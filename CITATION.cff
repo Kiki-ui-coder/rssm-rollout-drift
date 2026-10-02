@@ -6,8 +6,8 @@ authors:
   - family-names: Jiang
     given-names: Qi
     affiliation: Zhengzhou University
-repository-code: "https://github.com/REPLACE_WITH_YOUR_USERNAME/rssm-rollout-drift"
-url: "https://github.com/REPLACE_WITH_YOUR_USERNAME/rssm-rollout-drift"
+repository-code: "https://github.com/Kiki-ui-coder/rssm-rollout-drift"
+url: "https://github.com/Kiki-ui-coder/rssm-rollout-drift"
 license: MIT
 version: 1.0.0
 date-released: "2026-10-01"
